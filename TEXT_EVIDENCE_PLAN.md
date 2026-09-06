@@ -1,6 +1,6 @@
 # Text Evidence Generator — Audit & Implementation Plan
 
-Status: **PENDING APPROVAL** — no code written yet.
+Status: **IMPLEMENTED** — shipped in `entrypoints/editor/text-evidence/*`.
 
 ## BƯỚC 1 — Audit kết quả
 

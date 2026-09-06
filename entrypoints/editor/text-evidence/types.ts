@@ -9,6 +9,7 @@ export interface OCRResult {
   y: number;
   width: number;
   height: number;
+  lineId: number;
 }
 
 export enum MatchStatus {

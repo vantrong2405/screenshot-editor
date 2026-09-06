@@ -1381,10 +1381,15 @@ function Editor() {
 
                 <aside className="editor-sidebar">
                     <div className="sidebar-section text-evidence">
-                        <div className="section-header" onClick={() => setIsTextEvidenceOpen(!isTextEvidenceOpen)} style={{ cursor: 'pointer' }}>
+                        <button
+                            type="button"
+                            className="section-header section-header-toggle"
+                            onClick={() => setIsTextEvidenceOpen(!isTextEvidenceOpen)}
+                            aria-expanded={isTextEvidenceOpen}
+                        >
                             <IconCheck /><span>Text Evidence</span>
                             <span className={`te-chevron ${isTextEvidenceOpen ? 'open' : ''}`}>▾</span>
-                        </div>
+                        </button>
                         {isTextEvidenceOpen && (
                             <div className="section-content">
                                 <TextEvidencePanel onGenerate={handleGenerateEvidence} onApply={handleApplyEvidence} />

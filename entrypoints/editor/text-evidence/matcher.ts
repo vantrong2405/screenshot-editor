@@ -41,6 +41,7 @@ function mergeWords(words: OCRResult[]): OCRResult {
     y,
     width: right - x,
     height: bottom - y,
+    lineId: words[0].lineId,
   };
 }
 
@@ -51,7 +52,12 @@ function buildCandidates(ocrWords: OCRResult[], expectedWordCounts: number[]): O
   for (const n of ngramSizes) {
     if (n <= 1) continue;
     for (let i = 0; i + n <= ocrWords.length; i++) {
-      candidates.push(mergeWords(ocrWords.slice(i, i + n)));
+      const slice = ocrWords.slice(i, i + n);
+      // Only merge words that belong to the same OCR line — otherwise a
+      // window can straddle two lines and produce an oversized bbox.
+      if (slice.every((w) => w.lineId === slice[0].lineId)) {
+        candidates.push(mergeWords(slice));
+      }
     }
   }
   return candidates;

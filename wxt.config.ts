@@ -6,7 +6,8 @@ export default defineConfig({
   manifest: {
     name: 'VanTrongScreen',
     description: 'Capture & edit screenshots with visible page, select area, and full page modes',
-    author: 'trongdn2405' as any,
+    // @ts-expect-error
+    author: 'trongdn2405',
     version: '1.2.2',
     icons: {
       16: 'icon/16.png',

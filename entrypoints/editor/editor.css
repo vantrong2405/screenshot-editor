@@ -602,6 +602,15 @@ body {
   max-height: 358px;
 }
 
+.section-header-toggle {
+  width: 100%;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
 .te-chevron {
   margin-left: auto;
   font-size: 10px;

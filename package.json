@@ -16,7 +16,6 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "@tesseract.js-data/eng": "^1.0.0",
     "konva": "^10.2.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
