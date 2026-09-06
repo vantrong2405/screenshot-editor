@@ -39,7 +39,7 @@ function App() {
   return (
     <div className="popup-container">
       <header className="popup-header">
-        <img src={logo} alt="Screenshot Editor Pro" className="brand-logo" />
+        <img src={logo} alt="VanTrongScreen" className="brand-logo" />
       </header>
 
       <div className="capture-modes">

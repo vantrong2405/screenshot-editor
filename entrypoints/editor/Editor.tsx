@@ -11,12 +11,18 @@ import {
     IconAlert, IconAlignLeft, IconAlignCenter, IconAlignRight, IconCase,
     IconBookmark, IconLayers, IconSettings, IconRefresh, IconImage
 } from './Icons';
+import { TextEvidencePanel } from './text-evidence/TextEvidencePanel';
+import { runOCR } from './text-evidence/ocr';
+import { matchTexts } from './text-evidence/matcher';
+import { buildAnnotations } from './text-evidence/annotate';
+import type { MatchResult } from './text-evidence/types';
 
 type Tool = 'crop' | 'pencil' | 'line' | 'arrow' | 'rectangle' | 'circle' | 'text' | 'blur' | 'image';
 
-interface DrawingElement {
+export interface DrawingElement {
     id: string;
     type: Tool;
+    source?: string;
     points?: number[];
     x: number;
     y: number;
@@ -209,6 +215,7 @@ function Editor() {
 
     const [zoom, setZoom] = useState(0.5); // Start with 0.5 to ensure visibility
     const [elementCounter, setElementCounter] = useState(1);
+    const [isTextEvidenceOpen, setIsTextEvidenceOpen] = useState(true);
 
     const [cropRect, setCropRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
     const [isCropping, setIsCropping] = useState(false);
@@ -617,6 +624,22 @@ function Editor() {
         setHistory(newHistory);
         setHistoryIndex(newHistory.length - 1);
     }, [history, historyIndex]);
+
+    const handleGenerateEvidence = useCallback(async (lines: string[]): Promise<MatchResult[]> => {
+        if (!image) return [];
+        const expected = lines.map((raw, index) => ({ index, raw }));
+        const ocrWords = await runOCR(image);
+        return matchTexts(expected, ocrWords);
+    }, [image]);
+
+    const handleApplyEvidence = useCallback((matches: MatchResult[]) => {
+        const { elements: newElements, nextCounter } = buildAnnotations(matches, elementCounter);
+        if (newElements.length === 0) return;
+        const merged = [...elements, ...newElements];
+        setElements(merged);
+        addToHistory(merged);
+        setElementCounter(nextCounter);
+    }, [elements, elementCounter, addToHistory]);
 
     const getPointerPosition = () => {
         const stage = stageRef.current;
@@ -1131,7 +1154,7 @@ function Editor() {
         <div className="editor-container">
             <header className="editor-header">
                 <div className="header-left">
-                    <img src={logo} alt="Screenshot Editor Pro" className="brand-logo" />
+                    <img src={logo} alt="VanTrongScreen" className="brand-logo" />
                 </div>
                 <div className="header-actions">
                     <div className="templates-menu-wrapper" ref={templatesRef}>
@@ -1357,6 +1380,18 @@ function Editor() {
                 </div>
 
                 <aside className="editor-sidebar">
+                    <div className="sidebar-section text-evidence">
+                        <div className="section-header" onClick={() => setIsTextEvidenceOpen(!isTextEvidenceOpen)} style={{ cursor: 'pointer' }}>
+                            <IconCheck /><span>Text Evidence</span>
+                            <span className={`te-chevron ${isTextEvidenceOpen ? 'open' : ''}`}>▾</span>
+                        </div>
+                        {isTextEvidenceOpen && (
+                            <div className="section-content">
+                                <TextEvidencePanel onGenerate={handleGenerateEvidence} onApply={handleApplyEvidence} />
+                            </div>
+                        )}
+                    </div>
+
                     <div className="sidebar-section layers">
                         <div className="section-header"><IconLayers /><span>Layers</span><span className="badge">{elements.length}</span></div>
                         <div className="section-content scrollable">

@@ -1,8 +1,8 @@
-# Screenshot Editor Pro
+# VanTrongScreen
 
 A powerful browser extension for capturing and editing screenshots with multiple capture modes, built with WXT and React.
 
-![Screenshot Editor Pro](https://img.shields.io/badge/version-1.2.1-blue.svg)
+![VanTrongScreen](https://img.shields.io/badge/version-1.2.1-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 ## Features
@@ -35,7 +35,7 @@ A powerful browser extension for capturing and editing screenshots with multiple
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/raakkan/screenshot-editor.git
+   git clone https://github.com/trongdn2405/screenshot-editor.git
    cd screenshot-editor
    ```
 
@@ -134,4 +134,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by [Raakkan](https://github.com/raakkan)
+Made with ❤️ by [trongdn2405](https://github.com/trongdn2405)

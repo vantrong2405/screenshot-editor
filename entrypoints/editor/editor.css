@@ -591,6 +591,28 @@ body {
   padding: 16px;
 }
 
+.sidebar-section.text-evidence {
+  flex: 0 0 auto;
+  max-height: 400px;
+  border-bottom: 1px solid var(--border-main);
+}
+
+.sidebar-section.text-evidence .section-content {
+  overflow-y: auto;
+  max-height: 358px;
+}
+
+.te-chevron {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-dim);
+  transition: transform 0.2s;
+}
+
+.te-chevron.open {
+  transform: rotate(180deg);
+}
+
 /* Properties List */
 .prop-list {
   display: flex;
