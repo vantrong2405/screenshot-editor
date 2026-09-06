@@ -4,8 +4,10 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   modules: ['@wxt-dev/module-react'],
   manifest: {
-    name: 'Screenshot Editor Pro',
+    name: 'VanTrongScreen',
     description: 'Capture & edit screenshots with visible page, select area, and full page modes',
+    // @ts-expect-error
+    author: 'trongdn2405',
     version: '1.2.2',
     icons: {
       16: 'icon/16.png',
@@ -15,5 +17,14 @@ export default defineConfig({
       128: 'icon/128.png',
     },
     permissions: ['activeTab', 'storage', 'scripting', 'unlimitedStorage'],
+    web_accessible_resources: [
+      {
+        resources: ['tesseract/*'],
+        matches: ['<all_urls>'],
+      },
+    ],
+    content_security_policy: {
+      extension_pages: "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'",
+    },
   },
 });

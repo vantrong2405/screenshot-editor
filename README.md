@@ -1,8 +1,8 @@
-# Screenshot Editor Pro
+# VanTrongScreen
 
 A powerful browser extension for capturing and editing screenshots with multiple capture modes, built with WXT and React.
 
-![Screenshot Editor Pro](https://img.shields.io/badge/version-1.2.1-blue.svg)
+![VanTrongScreen](https://img.shields.io/badge/version-1.2.2-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 ## Features
@@ -22,6 +22,13 @@ A powerful browser extension for capturing and editing screenshots with multiple
 - T **Text** - Add text annotations with customizable font size
 - 🔴 **Blur** - Blur sensitive information
 
+### Text Evidence Generator
+Paste a list of texts you need to verify against the current screenshot and click **Generate Evidence**:
+- Runs OCR entirely in the browser (local `tesseract.js`, no external API calls)
+- Matches each line against **every occurrence** found in the image (exact, case-insensitive, and fuzzy matching)
+- Classifies each match as **Found**, **Possible Match**, or **Not Found**
+- Draws numbered red/orange rectangles directly on the canvas, reusing the existing layers/undo/redo/export pipeline
+
 ### Additional Features
 - **Undo/Redo** - Full history support for all edits
 - **Zoom Controls** - Unlimited zoom for detailed viewing
@@ -35,7 +42,7 @@ A powerful browser extension for capturing and editing screenshots with multiple
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/raakkan/screenshot-editor.git
+   git clone https://github.com/trongdn2405/screenshot-editor.git
    cd screenshot-editor
    ```
 
@@ -74,7 +81,7 @@ npm run dev
    - **Visible Page**: Instantly captures what's visible
    - **Select Area**: Click and drag to select a region
    - **Full Page**: Automatically scrolls and captures the entire page
-3. Edit your screenshot using the available tools
+3. Edit your screenshot using the available tools, or expand **Text Evidence** in the sidebar to auto-verify a list of texts against the screenshot
 4. Export via:
    - **Copy** - Copy to clipboard
    - **PNG** - Download as PNG
@@ -86,6 +93,8 @@ npm run dev
 - **React 19** - UI Framework
 - **TypeScript** - Type-safe development
 - **Vite** - Fast build tooling
+- **Konva / react-konva** - Canvas rendering for the editor
+- **tesseract.js** - Local, in-browser OCR for Text Evidence Generator
 
 ## Project Structure
 
@@ -94,11 +103,13 @@ screenshot-editor/
 ├── entrypoints/
 │   ├── background.ts      # Service worker for capture logic
 │   ├── content.ts         # Content script for area selection
-│   ├── popup/             # Extension popup UI
-│   └── editor/            # Screenshot editor Pro UI
+│   ├── popup/              # Extension popup UI
+│   └── editor/              # Screenshot editor UI
+│       └── text-evidence/  # OCR-based Text Evidence Generator (types, normalize, matcher, ocr, annotate, panel)
 ├── public/
-│   └── icon/              # Extension icons
-├── wxt.config.ts          # WXT configuration
+│   ├── icon/                # Extension icons
+│   └── tesseract/           # Local OCR worker/core/traineddata assets
+├── wxt.config.ts           # WXT configuration
 └── package.json
 ```
 
@@ -107,6 +118,7 @@ screenshot-editor/
 - Full page capture may not work perfectly on sites with complex infinite scroll (like social media feeds)
 - Some sites with strict Content Security Policies may block the content script
 - **MSN and similar sites**: Full page capture shows duplicate sticky navigation bars. These sites use JavaScript-controlled positioning instead of CSS `position: fixed/sticky`, making it difficult to detect and hide headers during capture.
+- Text Evidence Generator accuracy depends on OCR quality — very small text, unusual fonts, or low-contrast screenshots may reduce match confidence
 
 ## Contributing
 
@@ -134,4 +146,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by [Raakkan](https://github.com/raakkan)
+Made with ❤️ by [trongdn2405](https://github.com/trongdn2405)
